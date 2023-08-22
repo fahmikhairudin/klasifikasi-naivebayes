@@ -18,11 +18,11 @@ function initButton(preprocessingDisable = false, tfidfDisable = true, naivebaye
   naivebayesDisable = naivebayesDisable
   evaluasiDisable = evaluasiDisable
   hasilDisable = hasilDisable
-  if (preprocessingDisable) {
-    $('#preprocessing').prop('disabled', true)
-  } else {
-    $('#preprocessing').prop('disabled', false)
-  }
+  // if (preprocessingDisable) {
+  //   $('#preprocessing').prop('disabled', true)
+  // } else {
+  //   $('#preprocessing').prop('disabled', false)
+  // }
 
   if (tfidfDisable) {
     $('#tfidf').prop('disabled', true)
@@ -137,6 +137,7 @@ $('#tfidf').click(function () {
     "ordering": false,
     "columns": columns
   });
+  $('#tfidf').prop('disabled',true);
 });
 
 
@@ -180,7 +181,7 @@ function callbackFunc(response) {
     },
     ]
   });
-
+  $('#preprocessing').prop('disabled',true);
   $('#tfidf').trigger('click');
   $('#hasilnya').show();
 }

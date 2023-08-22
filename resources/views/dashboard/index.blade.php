@@ -88,7 +88,7 @@
                                 <div class="row">
                                     <div class="col w-100 m-2">
                                         <label>Pertama <i class="fa fa-circle-o-notch"></i></label>
-                                        <button style="color: black;" type="button" name="preprocessing" class="btn btn-primary w-100"
+                                        <button disabled=true style="color: black;" type="button" name="preprocessing" class="btn btn-primary w-100"
                                             id="preprocessing">PRE-PROCESSING</button>
                                     </div>
                                     <div class="col w-100 m-2">
@@ -134,7 +134,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                <p align="">Hasil Preprocessing</p>
+                <p align="center">Hasil Preprocessing</p>
                 <div class="table-responsive">
                     <table class="table table-striped" id="table-preprocessing">
                         <thead>
@@ -153,8 +153,9 @@
                     </table>
                 </div>
             </div>
+            <br>
             <div class="col-md-12">
-                <p align="">Hasil TF-IDF</p>
+                <p align="center">Hasil TF-IDF</p>
                 <div class="table-responsive">
                     <table class="table table-striped" id="table-tfIdf">
                     </table>
@@ -197,6 +198,7 @@
                     {
                         alert(data.message);
                         $('#kronologi').val(data.data);
+                        $('#preprocessing').prop('disabled',false);
                         $('#preprocessing').trigger('click');
                     }else
                     {
