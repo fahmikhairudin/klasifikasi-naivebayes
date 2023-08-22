@@ -75,18 +75,25 @@ $('#tfIdfModalClose').click(function () {
 
 $('#preprocessing').click(function () {
   var kronologi = $('textarea#kronologi').val();
-  var splited = kronologi.split('\n');
-  $.ajax({
-    type: "POST",
-    url: "https://klastering-api.invinic.site/preprocessing",
-    data: {
-      q: splited
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    success: callbackFunc,
-  });
+  // console.log(kronologi);
+  if(kronologi == '')
+  {
+    alert('mohon masukkan kronologi pada textarea atau upload dataset !');
+  }else{
+    var splited = kronologi.split('\n');
+    $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:5000/preprocessing",
+      data: {
+        q: splited
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      success: callbackFunc,
+    });
+  }
+  
 });
 
 
@@ -120,7 +127,7 @@ $('#tfidf').click(function () {
   Object.keys(Object.values(wordList)[0]).forEach((element) => {
     columns.push({ 'title': element, 'data': element })
   })
-  $('#tfIdfModal').modal('show')
+  //$('#tfIdfModal').modal('show')
   $('#table-tfIdf').DataTable({
     "autoWidth": false,
     "data": wordList,
@@ -144,8 +151,8 @@ function callbackFunc(response) {
   setpreprocessingData(response.data)
   iKey = 1;
   iSetelah = 0;
-  console.log(response['data']);
-  $('#preprocessingModal').modal('show')
+  //console.log(response['data']);
+  //$('#preprocessingModal').modal('show')
   $('#table-preprocessing').DataTable({
     "autoWidth": false,
     "data": response['data']['q'],
@@ -173,4 +180,7 @@ function callbackFunc(response) {
     },
     ]
   });
+
+  $('#tfidf').trigger('click');
+  $('#hasilnya').show();
 }

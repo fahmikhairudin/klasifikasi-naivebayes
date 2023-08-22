@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
-Route::get('/dashboard', [Dashboard::class,'index'])->name('dashboard.index');
+Route::get('/home', [Dashboard::class,'index'])->name('dashboard.index');
+Route::post('/upload_data_set', [Dashboard::class,'uploadDataSet']);
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
