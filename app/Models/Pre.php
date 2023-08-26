@@ -4,7 +4,7 @@ namespace App\Models;
 use DB;
 use Session;
 use StopWords\StopWords;
-use Amaccis\Stemmer\Stemmer;
+use App\Models\Stemming;
 class Pre
 {
 	public function execute($text)
@@ -15,17 +15,40 @@ class Pre
         $stopWords = new StopWords('id');
         $stopWords->clean($text);
         //steaming
-        $text = str_split($text);
+        $text = explode(' ', $text);
         $arr = [];
         foreach ($text as $key => $value) 
         {
-            $algorithm = "indonesian";
 			$word = $value;
-			$stemmer = new Stemmer($algorithm);
-			$stem = $stemmer->stemWord($word);
+			$stemmer = new Stemming();
+			$stem = $stemmer->stemming($word);
 			array_push($arr, $stem);
         }
-
-        return $arr;
+        //remove null
+        foreach ($arr as $key => $value) 
+        {
+            if(is_null($value))
+            {
+                unset($arr[$key]);
+            }
+        }
+        $arrFinal = [];
+        $no = 0;
+        //pencarian term
+        foreach ($arr as $key => $value) 
+        {
+            $arrFinal[$value] = 0;
+            foreach ($text as $textKey => $textValue) 
+            {
+               if($textValue == $value)
+               {
+                    $arrFinal[$value]++;
+               }
+            }
+        }
+        $result = [];
+        $result['term'] = $arrFinal;
+        $result['filter'] = implode(',', $arr);
+        return $result;
     }
 }

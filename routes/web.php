@@ -19,7 +19,17 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [Dashboard::class,'index'])->name('dashboard.index');
-Route::post('/upload_data_set', [Dashboard::class,'uploadDataSet']);
+
+//input
+Route::get('/input', [Dashboard::class,'inputIndex']);
+Route::post('/input/manual', [Dashboard::class,'inputDataSet']);
+
+//pre
+Route::get('/pre', [Dashboard::class,'preIndex']);
+//tf-idf
+Route::get('/tf-idf ', [Dashboard::class,'tfidfIndex']);
+//nvb
+Route::get('/nvb', [Dashboard::class,'nvbIndex']);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

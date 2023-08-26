@@ -47,7 +47,7 @@ class Dashboard extends Controller
         return view('dashboard.input');
     }
 
-    public function uploadDataSet(Request $request)
+    public function uploadDataSet($request)
     {
         $data = $this->input()->uploadDataSet($request);
         if($data['success'])
@@ -62,7 +62,8 @@ class Dashboard extends Controller
 
     public function inputDataSet(Request $request)
     {
-        $data = $this->pre()->execute($request->text);
+        $data = $this->pre()->execute($request->kronologi);
+        $data['text'] = $request->kronologi;
         dd($data);
     }
 }
