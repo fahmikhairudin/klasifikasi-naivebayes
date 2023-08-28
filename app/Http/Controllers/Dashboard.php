@@ -120,15 +120,15 @@ class Dashboard extends Controller
             'preprocessing' => $nbc['preprocessing'],
         ]);
 
-        foreach ($nbc['name'] as $nbcKey => $nbcValue) 
+        foreach ($nbc['data'] as $nbcKey => $nbcValue) 
         {
             DB::table('data_uji')->where('id',$dataId)->update([
-                ''.$nbcValue.'' => $nbc['data'][$nbcKey],
+                ''.$nbcKey.'' => $nbcValue,
             ]);
         }
 
          DB::table('data_uji')->where('id',$dataId)->update([
-            'hasil_nbc' => $nbc['name'][0],
+            'hasil_nbc' => $nbc['nbc'],
         ]);
 
          return redirect('nvb');

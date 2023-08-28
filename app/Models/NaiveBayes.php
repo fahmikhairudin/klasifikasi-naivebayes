@@ -35,6 +35,14 @@ class NaiveBayes
            }
          }
          $arr = array_unique($arr);
+         foreach ($arr as $key => $value) 
+         {
+         	$dataKata = DB::table('data_tf_idf')->where('kata',$value)->first();
+         	if(!$dataKata)
+         	{
+         		unset($arr[$key]);
+         	}
+         }
          $preprocessing = implode(',', $arr);
 
          //probabilitas data uji
@@ -61,8 +69,9 @@ class NaiveBayes
 	         	}
 	         	$hasil = array_product($arrTemp) * $labelDataValue->nilai_p;
 	         	$hasil =  $this->decimal_notation($hasil);
-	         	//$hasil = sprintf("%0.2f",$hasil);;
-	         	$probKal[$nama]['result_p'] = $hasil;
+	         	$hasil = str_replace('.', '', $hasil);
+	         	$hasil = str_replace('0', '', $hasil);
+	         	$probKal[$nama]['result_p'] = intval($hasil);
          	//}
          }
          //dd($probKal);
@@ -73,11 +82,13 @@ class NaiveBayes
          {
          	$noN++;
          	$final[$key] = $value['result_p'];
-         	$finalName[$noN] = $key;
+         	//$finalName[$noN] = $key;
          }
-         rsort($final);
+         arsort($final);
+         $maxs = array_keys($final, max($final));
+         //dd();
          $oke = [];
-         $oke['name'] = $finalName;
+         $oke['nbc'] = $maxs[0];
          $oke['data'] = $final;
          $oke['preprocessing'] = $preprocessing;
          //dd($oke);

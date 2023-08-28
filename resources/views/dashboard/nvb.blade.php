@@ -35,10 +35,10 @@
                 
               </div>
                <div class="card-header" align="center" style="background-color: white;">
-               <!--   <a class="btn btn-warning" href="{{url('data_latih')}}">
-                     <i class="fa fa-arrow-left"></i> Kembali Ke Data Latih 
+                 <a class="btn btn-warning" href="{{url('input')}}">
+                     <i class="fa fa-arrow-left"></i> Kembali Ke Data Uji 
                 </a>
-                &nbsp;
+               <!--  &nbsp;
                  <a class="btn btn-info" href="{{url('tf-idf')}}">
                       Lihat TF-IDF <i class="fa fa-arrow-right"></i>
                 </a> -->
