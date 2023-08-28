@@ -27,11 +27,14 @@ Route::post('/data_latih/input', [Dashboard::class,'inputDataSet']);
 Route::get('/data_latih/train', [Dashboard::class,'inputDataSetTrain']);
 
 //pre
-Route::get('/pre', [Dashboard::class,'preIndex']);
+Route::get('/pre', [Dashboard::class,'preprocessing']);
 //tf-idf
-Route::get('/tf-idf ', [Dashboard::class,'tfidfIndex']);
+Route::get('/tf-idf ', [Dashboard::class,'tfidf']);
+//datauji
+Route::get('/input ', [Dashboard::class,'inputDataUji']);
+Route::post('/test_input ', [Dashboard::class,'testDdatUji']);
 //nvb
-Route::get('/nvb', [Dashboard::class,'nvbIndex']);
+Route::get('/nvb', [Dashboard::class,'nvb']);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

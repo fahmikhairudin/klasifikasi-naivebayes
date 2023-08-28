@@ -24,8 +24,7 @@
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
    <div class="col-md-12">
      <p class="pt-2" align="center">
-      Selamat Datang {{Auth::user()->name}} Di Klasfikasi Kekerasan Perempuan NVb | KKP-NVB |
-      Anda Login Sebagai {{ucwords(Auth::user()->role)}} | 
+      Selamat Datang {{Auth::user()->name}} Di Klasfikasi Kekerasan Perempuan NVb | KKP-NVB {{ucwords(Auth::user()->role)}} | 
       <a class="fa fa-sign-out" style="cursor: pointer;color: black;" 
          href="{{ route('logout') }}"
          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

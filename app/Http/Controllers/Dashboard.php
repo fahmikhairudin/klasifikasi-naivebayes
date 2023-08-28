@@ -23,11 +23,11 @@ class Dashboard extends Controller
         return view('dashboard.index');
     }
 
-    public function preprocessing(Request $request)
-    {
-        $feedback = array();
-        return response()->json($feedback, 200, array(), JSON_PRETTY_PRINT);
-    }
+    // public function preprocessing(Request $request)
+    // {
+    //     $feedback = array();
+    //     return response()->json($feedback, 200, array(), JSON_PRETTY_PRINT);
+    // }
 
     //input data area
     //load model 
@@ -50,18 +50,18 @@ class Dashboard extends Controller
         return view('dashboard.data_latih',compact('data'));
     }
 
-    public function uploadDataSet($request)
-    {
-        $data = $this->input()->uploadDataSet($request);
-        if($data['success'])
-        {
-            foreach ($data['text']['kronologi'] as $key => $value) 
-            {
-                $steam = $this->pre()->execute($value);
-                $data['text']['steaming'][$key] = $steam;
-            }
-        }
-    }
+    // public function uploadDataSet($request)
+    // {
+    //     $data = $this->input()->uploadDataSet($request);
+    //     if($data['success'])
+    //     {
+    //         foreach ($data['text']['kronologi'] as $key => $value) 
+    //         {
+    //             $steam = $this->pre()->execute($value);
+    //             $data['text']['steaming'][$key] = $steam;
+    //         }
+    //     }
+    // }
 
     public function inputDataSet(Request $request)
     {
@@ -85,5 +85,62 @@ class Dashboard extends Controller
         $latih = DB::table('data_train')->get();
         $data = $this->pre()->execute($latih);
         return redirect()->back()->with('success','Berhasil melatih data silahkan lanjut lihat hasil di preprocessing');
+    }
+
+    public function preprocessing()
+    {
+        $data = DB::table('data_train')->get();
+        return view('dashboard.pre',compact('data'));
+    }
+
+    public function tfidf()
+    {
+        $data = DB::table('data_tf_idf')->get();
+        return view('dashboard.tf-idf',compact('data'));
+    }
+
+    public function inputDataUji()
+    {
+        return view('dashboard.input');
+    }
+
+    public function testDdatUji(Request $request)
+    {
+        //insery to db
+        $dataId = DB::table('data_uji')->insertGetId([
+            'label'=>$request->jenis,
+            'kronologi'=>$request->kronologi,
+            'created_at'=>Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
+        ]);
+        //$dataId = 0;
+        $nvb = new NaiveBayes();
+        $nbc = $nvb->nbc($request->jenis,$request->kronologi);
+        //dd($nbc);
+        DB::table('data_uji')->where('id',$dataId)->update([
+            'preprocessing' => $nbc['preprocessing'],
+        ]);
+
+        foreach ($nbc['name'] as $nbcKey => $nbcValue) 
+        {
+            DB::table('data_uji')->where('id',$dataId)->update([
+                ''.$nbcValue.'' => $nbc['data'][$nbcKey],
+            ]);
+        }
+
+         DB::table('data_uji')->where('id',$dataId)->update([
+            'hasil_nbc' => $nbc['name'][0],
+        ]);
+
+         return redirect('nvb');
+    }
+
+    public function nvb()
+    {
+        $data = DB::table('data_uji')->get();
+        if(!$data)
+        {
+            return redirect('home');
+        }
+        return view('dashboard.nvb',compact('data'));
     }
 }

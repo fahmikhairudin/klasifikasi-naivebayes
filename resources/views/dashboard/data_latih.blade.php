@@ -108,32 +108,34 @@
                         <div class="alert-text">{{ucwords($message)}}</div>
                     </div>
                   @endif
-                <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Label</th>
-                  <th>Kronologi</th>
-                  <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                  @foreach($data as $key => $item)
-                    <tr>
-                        <td>{{$key+1}}</td>
-                        <td>{{$item->label}}</td>
-                        <td>{{$item->kronologi}}</td>
-                        <td>
-                          <a class="btn btn-sm btn-danger" 
-                             onclick="return confirm('Yakin hapus data latih?')" 
-                             href="{{url('data_latih_delete/'.$item->id)}}">
-                            Hapus <i class="fa fa-trash"></i>
-                          </a>
-                        </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
+                  <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Label</th>
+                    <th>Kronologi</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($data as $key => $item)
+                      <tr>
+                          <td>{{$key+1}}</td>
+                          <td>{{$item->label}}</td>
+                          <td>{{$item->kronologi}}</td>
+                          <td>
+                            <a class="btn btn-sm btn-danger" 
+                               onclick="return confirm('Yakin hapus data latih?')" 
+                               href="{{url('data_latih_delete/'.$item->id)}}">
+                              Hapus <i class="fa fa-trash"></i>
+                            </a>
+                          </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
               </div>
             </div>
             <!-- /.card -->

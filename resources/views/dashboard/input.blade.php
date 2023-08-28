@@ -33,7 +33,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{url('/input/manual')}}" method="POST" enctype="multipart/form-data">
+              <form role="form" action="{{url('/test_input')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                   @if($message=Session::get('error'))
@@ -45,7 +45,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                        <label>Jenis</label>
-                        <select class="form-control" name="jenis">
+                        <select class="form-control" name="jenis" required>
                           <option value="" disabled selected>Pilih Jenis</option>
                           <option value="seksual">Seksual</option>
                           <option value="pelecehan">Pelecehan</option>
@@ -58,7 +58,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Kronologi</label>
-                       <textarea class="form-control" name="kronologi" rows="5" cols="5" placeholder="Setelah ibu korban bercerai dengan suaminya kurang dari 3 bulan ibu korban menikah kembali dengan lelaki yang usia nya terpaut jauh..."></textarea>
+                       <textarea class="form-control" required name="kronologi" rows="5" cols="5" placeholder="Setelah ibu korban bercerai dengan suaminya kurang dari 3 bulan ibu korban menikah kembali dengan lelaki yang usia nya terpaut jauh..."></textarea>
                       </div>
                     </div>
                    <!--  <div class="col-sm-12">
@@ -73,6 +73,10 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer" align="right">
+                   <a class="btn btn-warning" href="{{url('tf-idf')}}">
+                     <i class="fa fa-arrow-left"></i> Kembali Ke Tf-Idf 
+                </a>
+                &nbsp;
                   <button type="reset" class="btn btn-default">Reset</button>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-primary">Uji Data <i class="fa fa-arrow-right"></i></button>
