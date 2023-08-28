@@ -21,8 +21,10 @@ Route::get('/', function () {
 Route::get('/home', [Dashboard::class,'index'])->name('dashboard.index');
 
 //input
-Route::get('/input', [Dashboard::class,'inputIndex']);
-Route::post('/input/manual', [Dashboard::class,'inputDataSet']);
+Route::get('/data_latih', [Dashboard::class,'inputIndex']);
+Route::get('/data_latih_delete/{id}', [Dashboard::class,'deleteDataset']);
+Route::post('/data_latih/input', [Dashboard::class,'inputDataSet']);
+Route::get('/data_latih/train', [Dashboard::class,'inputDataSetTrain']);
 
 //pre
 Route::get('/pre', [Dashboard::class,'preIndex']);

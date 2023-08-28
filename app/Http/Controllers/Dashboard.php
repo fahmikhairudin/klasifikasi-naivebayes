@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
 //model
 use App\Models\Input;
 use App\Models\Pre;
 use App\Models\TfIdf;
 use App\Models\NaiveBayes;
 use App\Models\Laporan;
+use DB;
 class Dashboard extends Controller
 {
     public function __construct()
@@ -44,7 +46,8 @@ class Dashboard extends Controller
     //end load model
     public function inputIndex()
     {
-        return view('dashboard.input');
+        $data = DB::table('data_train')->orderBy('created_at','DESC')->get();
+        return view('dashboard.data_latih',compact('data'));
     }
 
     public function uploadDataSet($request)
@@ -62,8 +65,25 @@ class Dashboard extends Controller
 
     public function inputDataSet(Request $request)
     {
-        $data = $this->pre()->execute($request->kronologi);
-        $data['text'] = $request->kronologi;
-        dd($data);
+       DB::table('data_train')->insert([
+            'label'=>$request->label,
+            'kronologi'=>$request->kronologi,
+            'created_at'=>Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
+        ]);
+
+       return redirect()->back()->with('success','Berhasil menambahkan data latih');
+    }
+
+    public function deleteDataset($id)
+    {
+        DB::table('data_train')->where('id',$id)->delete();
+        return redirect()->back()->with('success_hapus','Berhasil hapus data latih silahkan latih ulang data anda');
+    }
+
+    public function inputDataSetTrain(Request $request)
+    {
+        $latih = DB::table('data_train')->get();
+        $data = $this->pre()->execute($latih);
+        return redirect()->back()->with('success','Berhasil melatih data silahkan lanjut lihat hasil di preprocessing');
     }
 }

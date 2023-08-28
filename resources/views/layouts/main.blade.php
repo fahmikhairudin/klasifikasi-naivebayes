@@ -70,10 +70,11 @@
               <p>Dashboard</p>
             </a>
           </li>
+          
           <li class="nav-item">
-            <a href="{{url('input')}}" class="nav-link {{Request::segment(1) == 'input'?'active':''}}">
+            <a href="{{url('data_latih')}}" class="nav-link {{Request::segment(1) == 'data_latih'?'active':''}}">
               <i class="nav-icon fa fa-file-excel-o"></i>
-              <p>Input Data</p>
+              <p>Data Latih</p>
             </a>
           </li>
           <li class="nav-item">
@@ -90,6 +91,12 @@
                class="nav-link {{Request::segment(1) == 'tf-idf'?'active':''}}">
               <i class="nav-icon fa fa-list-alt"></i>
               <p>TF-IDF</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('input')}}" class="nav-link {{Request::segment(1) == 'input'?'active':''}}">
+              <i class="nav-icon fa fa-file-excel-o"></i>
+              <p>Input Data Uji</p>
             </a>
           </li>
           <li class="nav-item">

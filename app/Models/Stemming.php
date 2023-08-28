@@ -18,7 +18,7 @@ class Stemming
 
 	  if (preg_match('/([km]u|nya|[kl]ah|pun)\z/i', $kata)) { // Cek Inflection Suffixes
 	    $__kata = preg_replace('/([km]u|nya|[kl]ah|pun)\z/i', '', $kata);
-
+	    
 	    return $__kata;
 	  }
 	  return $kataAsal;
@@ -248,11 +248,13 @@ class Stemming
 	    }
 
 	    $kata = $this->Del_Derivation_Suffixes($kata);
+	    //dd($kata);
 	    if ($this->cekKamus($kata)) {
 	      return $kata;
 	    }
 
 	    $kata = $this->Del_Derivation_Prefix($kata);
+	    // dd($kata);
 	    if ($this->cekKamus($kata)) {
 	      return $kata;
 	    }
