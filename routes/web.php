@@ -35,6 +35,7 @@ Route::get('/input ', [Dashboard::class,'inputDataUji']);
 Route::post('/test_input ', [Dashboard::class,'testDdatUji']);
 //nvb
 Route::get('/nvb', [Dashboard::class,'nvb']);
+Route::get('/nvb_delete/{id}', [Dashboard::class,'nvbDelete']);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

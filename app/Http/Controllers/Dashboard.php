@@ -141,6 +141,95 @@ class Dashboard extends Controller
         {
             return redirect('home');
         }
-        return view('dashboard.nvb',compact('data'));
+        $prediksi = [];
+
+        //prediksi
+        $prediksi['seksual_seksual'] = DB::table('data_uji')->where('hasil_nbc','seksual')
+                                ->where('label','seksual')
+                                ->count();
+        $prediksi['seksual_pelecehan'] = DB::table('data_uji')->where('hasil_nbc','seksual')
+                                ->where('label','pelecehan')
+                                ->count();
+        $prediksi['seksual_kekerasan_anak'] = DB::table('data_uji')->where('hasil_nbc','seksual')
+                                ->where('label','kekerasan_anak')
+                                ->count();
+        $prediksi['seksual_kdrt'] = DB::table('data_uji')->where('hasil_nbc','seksual')
+                                ->where('label','kdrt')
+                                ->count();
+        $prediksi['seksual_penipuan'] = DB::table('data_uji')->where('hasil_nbc','seksual')
+                                ->where('label','penipuan')
+                                ->count();
+
+        $prediksi['pelecehan_seksual'] = DB::table('data_uji')->where('hasil_nbc','pelecehan')
+                                ->where('label','seksual')
+                                ->count();
+        $prediksi['pelecehan_pelecehan'] = DB::table('data_uji')->where('hasil_nbc','pelecehan')
+                                ->where('label','pelecehan')
+                                ->count();
+        $prediksi['pelecehan_kekerasan_anak'] = DB::table('data_uji')->where('hasil_nbc','pelecehan')
+                                ->where('label','kekerasan_anak')
+                                ->count();
+        $prediksi['pelecehan_kdrt'] = DB::table('data_uji')->where('hasil_nbc','pelecehan')
+                                ->where('label','kdrt')
+                                ->count();
+        $prediksi['pelecehan_penipuan'] = DB::table('data_uji')->where('hasil_nbc','pelecehan')
+                                ->where('label','penipuan')
+                                ->count();
+
+        $prediksi['kekerasan_anak_seksual'] = DB::table('data_uji')->where('hasil_nbc','kekerasan_anak')
+                                ->where('label','seksual')
+                                ->count();
+        $prediksi['kekerasan_anak_pelecehan'] = DB::table('data_uji')->where('hasil_nbc','kekerasan_anak')
+                                ->where('label','pelecehan')
+                                ->count();
+        $prediksi['kekerasan_anak_kekerasan_anak'] = DB::table('data_uji')->where('hasil_nbc','kekerasan_anak')
+                                ->where('label','kekerasan_anak')
+                                ->count();
+        $prediksi['kekerasan_anak_kdrt'] = DB::table('data_uji')->where('hasil_nbc','kekerasan_anak')
+                                ->where('label','kdrt')
+                                ->count();
+        $prediksi['kekerasan_anak_penipuan'] = DB::table('data_uji')->where('hasil_nbc','kekerasan_anak')
+                                ->where('label','penipuan')
+                                ->count();
+
+        $prediksi['kdrt_seksual'] = DB::table('data_uji')->where('hasil_nbc','kdrt')
+                                ->where('label','seksual')
+                                ->count();
+        $prediksi['kdrt_pelecehan'] = DB::table('data_uji')->where('hasil_nbc','kdrt')
+                                ->where('label','pelecehan')
+                                ->count();
+        $prediksi['kdrt_kekerasan_anak'] = DB::table('data_uji')->where('hasil_nbc','kdrt')
+                                ->where('label','kekerasan_anak')
+                                ->count();
+        $prediksi['kdrt_kdrt'] = DB::table('data_uji')->where('hasil_nbc','kdrt')
+                                ->where('label','kdrt')
+                                ->count();
+        $prediksi['kdrt_penipuan'] = DB::table('data_uji')->where('hasil_nbc','kdrt')
+                                ->where('label','penipuan')
+                                ->count();
+
+        $prediksi['penipuan_seksual'] = DB::table('data_uji')->where('hasil_nbc','penipuan')
+                                ->where('label','seksual')
+                                ->count();
+        $prediksi['penipuan_pelecehan'] = DB::table('data_uji')->where('hasil_nbc','penipuan')
+                                ->where('label','pelecehan')
+                                ->count();
+        $prediksi['penipuan_kekerasan_anak'] = DB::table('data_uji')->where('hasil_nbc','penipuan')
+                                ->where('label','kekerasan_anak')
+                                ->count();
+        $prediksi['penipuan_kdrt'] = DB::table('data_uji')->where('hasil_nbc','penipuan')
+                                ->where('label','kdrt')
+                                ->count();
+        $prediksi['penipuan_penipuan'] = DB::table('data_uji')->where('hasil_nbc','penipuan')
+                                ->where('label','penipuan')
+                                ->count();
+        $dataset = DB::table('data_train')->count();
+        return view('dashboard.nvb',compact('data','prediksi','dataset'));
+    }
+
+    public function nvbDelete($id)
+    {
+        DB::table('data_uji')->where('id',$id)->delete();
+        return redirect()->back()->with('success','Berhasil menhapus data');
     }
 }

@@ -38,13 +38,19 @@
                  <a class="btn btn-warning" href="{{url('input')}}">
                      <i class="fa fa-arrow-left"></i> Kembali Ke Data Uji 
                 </a>
-               <!--  &nbsp;
-                 <a class="btn btn-info" href="{{url('tf-idf')}}">
-                      Lihat TF-IDF <i class="fa fa-arrow-right"></i>
-                </a> -->
+                &nbsp;
+                 <a class="btn btn-info" style="cursor: pointer;" class="btn btn-info" data-toggle="modal" 
+                    data-target="#matrix">
+                      Confusion Matrix &nbsp; <i class="fa fa-table"></i>&nbsp; &  Accuracy &nbsp; <i class="fa fa-bullseye"></i>
+                </a>
+                &nbsp;
+
+                 <a class="btn btn-success" href="{{url('tf-idf')}}">
+                      Laporan &nbsp; <i class="fa fa-file-pdf-o"></i> &nbsp; <i class="fa fa-arrow-right"></i>
+                </a>
                </div>
               <div class="card-body">
-                @if($message=Session::get('success_hapus'))
+                @if($message=Session::get('success'))
                     <div class="alert alert-success" role="alert">
                         <div class="alert-text">{{ucwords($message)}}</div>
                     </div>
@@ -56,9 +62,12 @@
                     <tr>
                       <th>No</th>
                       <th>Kronologi</th>
-                      <th>Nilai Aktual</th>
-                      <th>Nilai NBC (Sistem)</th>
-                      <th>Created At</th>
+                      <th>Kata</th>
+                      <th>Aktual</th>
+                      <th>NBC</th>
+                      <th>Tanggal</th>
+                      <th>Probabilitas</th>
+                      <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -66,10 +75,37 @@
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$item->kronologi}}</td>
+                            <td>{{$item->preprocessing}}</td>
                             <td>{{$item->label}}</td>
                             <td>{{$item->hasil_nbc}}</td>
                             <td>
                               {{Carbon\Carbon::parse($item->created_at)->format('d F Y H:i:s')}}
+                            </td>
+                            <td>
+                              <ul>
+                                <li>
+                                  P|(Seksual) : <b>{{$item->seksual}}</b>
+                                </li>
+                                <li>
+                                  P|(Pelecehan) : <b>{{$item->pelecehan}}</b>
+                                </li>
+                                <li>
+                                  P|(Kekerasan Anak) : <b>{{$item->kekerasan_anak}}</b>
+                                </li>
+                                <li>
+                                  P|(KDRT) : <b>{{$item->kdrt}}</b>
+                                </li>
+                                <li>
+                                  P|(penipuan) : <b>{{$item->penipuan}}</b>
+                                </li>
+                              </ul>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('Yakin hapus data uji?')" 
+                                   href="{{url('nvb_delete/'.$item->id)}}">
+                                  Hapus <i class="fa fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                       @endforeach
@@ -87,6 +123,246 @@
     </section>
     <!-- /.content -->
   </div>
+
+  <!-- The Modal -->
+<div class="modal" id="matrix">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Confusion Matrik & Acuuracy</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body table-responsive">
+       <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <td rowspan="7" style="text-align: center;padding-top: 16%;">Hasil Aktual</td>
+            <td colspan="6" style="text-align:center;">Hasil Prediksi</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>SEKSUAL</td>
+            <td>PELECEHAN</td>
+            <td>KEKERASAN ANAK</td>
+            <td>KDRT</td>
+            <td>PENIPUAN</td>
+          </tr>
+          <tr>
+            <td>SEKSUAL</td>
+            <td>{{$prediksi['seksual_seksual']}}</td>
+            <td>{{$prediksi['seksual_pelecehan']}}</td>
+            <td>{{$prediksi['seksual_kekerasan_anak']}}</td>
+            <td>{{$prediksi['seksual_kdrt']}}</td>
+            <td>{{$prediksi['seksual_penipuan']}}</td>
+          </tr>
+          <tr>
+            <td>PELECEHAN</td>
+            <td>{{$prediksi['pelecehan_seksual']}}</td>
+            <td>{{$prediksi['pelecehan_pelecehan']}}</td>
+            <td>{{$prediksi['pelecehan_kekerasan_anak']}}</td>
+            <td>{{$prediksi['pelecehan_kdrt']}}</td>
+            <td>{{$prediksi['pelecehan_penipuan']}}</td>
+          </tr>
+          <tr>
+            <td>KEKERASAN ANAK</td>
+            <td>{{$prediksi['kekerasan_anak_seksual']}}</td>
+            <td>{{$prediksi['kekerasan_anak_pelecehan']}}</td>
+            <td>{{$prediksi['kekerasan_anak_kekerasan_anak']}}</td>
+            <td>{{$prediksi['kekerasan_anak_kdrt']}}</td>
+            <td>{{$prediksi['kekerasan_anak_penipuan']}}</td>
+          </tr>
+          <tr>
+            <td>KDRT</td>
+            <td>{{$prediksi['kdrt_seksual']}}</td>
+            <td>{{$prediksi['kdrt_pelecehan']}}</td>
+            <td>{{$prediksi['kdrt_kekerasan_anak']}}</td>
+            <td>{{$prediksi['kdrt_kdrt']}}</td>
+            <td>{{$prediksi['kdrt_penipuan']}}</td>
+          </tr>
+          <tr>
+            <td>PENIPUAN</td>
+            <td>{{$prediksi['penipuan_seksual']}}</td>
+            <td>{{$prediksi['penipuan_pelecehan']}}</td>
+            <td>{{$prediksi['penipuan_kekerasan_anak']}}</td>
+            <td>{{$prediksi['penipuan_kdrt']}}</td>
+            <td>{{$prediksi['penipuan_penipuan']}}</td>
+          </tr>
+        </thead>
+
+       </table>
+
+       <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>TP (SEKSUAL) = {{$prediksi['seksual_seksual']}}</th>
+            <th>TP (PELECEHAN) = {{$prediksi['pelecehan_pelecehan']}}</th>
+            <th>TP (KEKERASAN ANAK) = {{$prediksi['kekerasan_anak_kekerasan_anak']}}</th>
+            <th>TP (KDRT) = {{$prediksi['kdrt_kdrt']}}</th>
+            <th colspan="3">TP (PENIPUAN) = {{$prediksi['penipuan_penipuan']}}</th>
+          </tr>
+        </thead>
+        @php 
+          $fnSeksual = $prediksi['seksual_pelecehan'] + $prediksi['seksual_kekerasan_anak'] + $prediksi['seksual_kdrt'] + $prediksi['seksual_penipuan'];
+
+          $fnPelecehan = $prediksi['pelecehan_seksual'] + $prediksi['pelecehan_kekerasan_anak'] + $prediksi['pelecehan_kdrt'] + $prediksi['pelecehan_penipuan'];
+
+          $fnKa = $prediksi['kekerasan_anak_seksual'] + $prediksi['kekerasan_anak_pelecehan'] + $prediksi['kekerasan_anak_kdrt'] + $prediksi['kekerasan_anak_penipuan'];
+
+          $fnKkdrt = $prediksi['kdrt_seksual'] + $prediksi['kdrt_kekerasan_anak'] + $prediksi['kdrt_pelecehan'] + $prediksi['kdrt_penipuan'];
+
+          $fnPenipuan = $prediksi['penipuan_seksual'] + $prediksi['penipuan_kekerasan_anak'] + $prediksi['penipuan_kdrt'] + $prediksi['penipuan_pelecehan'];
+
+          $tp = $prediksi['seksual_seksual'] + $prediksi['pelecehan_pelecehan'] + $prediksi['kekerasan_anak_kekerasan_anak'] + $prediksi['kdrt_kdrt'] + $prediksi['penipuan_penipuan'];
+        @endphp
+        <tbody>
+          <tr>
+            <td>FN (SEKSUAL) = {{$fnSeksual}}</td>
+            <td>FN (PELECEHAN) = {{$fnPelecehan}}</td>
+            <td>FN (KEKERASAN ANAK) = {{$fnKa}}</td>
+            <td>FN (KDRT) = {{$fnKkdrt}}</td>
+            <td colspan="3">FN (PENIPUAN) = {{$fnPenipuan}}</td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Accuracy = TP/Total Data Set = {{$tp}}/{{$dataset}} ={{$tp/$dataset}}</td>
+          </tr>
+
+
+          <tr>
+            <td colspan="7">
+              Nilai Recall (SEKSUAL)  = TP/(TP+FN) = {{$prediksi['seksual_seksual']}}/({{$prediksi['seksual_seksual']}}+{{$fnSeksual}}) = 
+              @if($prediksi['seksual_seksual'] > 0)
+                {{ $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Recall (PELECEHAN) = TP/(TP+FN)  = {{$prediksi['pelecehan_pelecehan']}}/({{$prediksi['pelecehan_pelecehan']}}+{{$fnPelecehan}}) = 
+             @if($prediksi['pelecehan_pelecehan'] > 0)
+              {{ $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan) }}
+             @else
+                0
+             @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Recall (KDRT) = TP/(TP+FN)  = {{$prediksi['kdrt_kdrt']}}/({{$prediksi['kdrt_kdrt']}}+{{$fnKkdrt}}) = 
+              @if($prediksi['kdrt_kdrt'] > 0)
+                {{ $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Recall (KEKERASAN ANAK) = TP/(TP+FN)  = {{$prediksi['kekerasan_anak_kekerasan_anak']}}/({{$prediksi['kekerasan_anak_kekerasan_anak']}}+{{$fnKa}}) =
+              @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
+                {{ $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Recall (PENIPUAN) = TP/(TP+FN) = {{$prediksi['penipuan_penipuan']}}/({{$prediksi['penipuan_penipuan']}}+{{$fnPenipuan}}) =
+              @if($prediksi['penipuan_penipuan'] > 0)
+                {{ $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+
+          @php
+            $psek = 0;
+            $ppel = 0;
+            $pka = 0;
+            $pkdrt = 0;
+            $pnip = 0;
+          @endphp
+          <tr>
+            <td colspan="7">Total Nilai Recall 
+              R(SEK)+R(PEL)+R(KA)+R(KDRT)+R(PEN)) / Jumlah Kelas = 
+
+              @if($prediksi['seksual_seksual'] > 0)
+                @php
+                  $psek = $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)
+                @endphp
+                {{$prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['pelecehan_pelecehan'] > 0)
+                @php
+                  $ppel = $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)
+                @endphp
+                {{$prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['kdrt_kdrt'] > 0)
+                @php
+                  $pkdrt = $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)
+                @endphp
+                {{$prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
+                @php
+                  $pka = $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)
+                @endphp
+                {{$prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['penipuan_penipuan'] > 0)
+                @php
+                  $pnip = $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)
+                @endphp
+                {{$prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)}}
+              @else
+                0
+              @endif
+              / 5
+
+              @php 
+                $hasil = $psek + $ppel + $pkdrt + $pka + $pnip;
+              @endphp
+              =
+                {{$hasil}} / 5
+              =
+              
+              @if($hasil > 0)
+                {{ $hasil / 5}}
+              @else
+                0
+              @endif
+
+            </td>
+          </tr>
+        </tbody>
+       </table>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 @endsection
 @section('script')
 <script src="{{url('plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>

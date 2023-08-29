@@ -75,11 +75,16 @@
                 <div class="card-footer" align="right">
                    <a class="btn btn-warning" href="{{url('tf-idf')}}">
                      <i class="fa fa-arrow-left"></i> Kembali Ke Tf-Idf 
-                </a>
-                &nbsp;
+                  </a>
+                  &nbsp;
                   <button type="reset" class="btn btn-default">Reset</button>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-primary">Uji Data <i class="fa fa-arrow-right"></i></button>
+                  &nbsp;
+                   <a class="btn btn-info" href="{{url('nvb')}}">
+                     Lihat Data Yang Pernah Di uji <i class="fa fa-arrow-right"></i>
+                  </a>
+                  
                 </div>
               </form>
             </div>
