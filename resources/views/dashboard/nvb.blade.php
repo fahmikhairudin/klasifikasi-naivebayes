@@ -230,6 +230,125 @@
             <td colspan="7">Nilai Accuracy = TP/Total Data Set = {{$tp}}/{{$dataset}} ={{$tp/$dataset}}</td>
           </tr>
 
+          <tr>
+            <td colspan="7">
+              Nilai Precision (SEKSUAL)  = TP/(TP+FN) = {{$prediksi['seksual_seksual']}}/({{$prediksi['seksual_seksual']}}+{{$fnSeksual}}) = 
+              @if($prediksi['seksual_seksual'] > 0)
+                {{ $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Precision (PELECEHAN) = TP/(TP+FN)  = {{$prediksi['pelecehan_pelecehan']}}/({{$prediksi['pelecehan_pelecehan']}}+{{$fnPelecehan}}) = 
+             @if($prediksi['pelecehan_pelecehan'] > 0)
+              {{ $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan) }}
+             @else
+                0
+             @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Precision (KDRT) = TP/(TP+FN)  = {{$prediksi['kdrt_kdrt']}}/({{$prediksi['kdrt_kdrt']}}+{{$fnKkdrt}}) = 
+              @if($prediksi['kdrt_kdrt'] > 0)
+                {{ $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Precision (KEKERASAN ANAK) = TP/(TP+FN)  = {{$prediksi['kekerasan_anak_kekerasan_anak']}}/({{$prediksi['kekerasan_anak_kekerasan_anak']}}+{{$fnKa}}) =
+              @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
+                {{ $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">Nilai Precision (PENIPUAN) = TP/(TP+FN) = {{$prediksi['penipuan_penipuan']}}/({{$prediksi['penipuan_penipuan']}}+{{$fnPenipuan}}) =
+              @if($prediksi['penipuan_penipuan'] > 0)
+                {{ $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan) }}
+              @else
+                0
+              @endif
+            </td>
+          </tr>
+
+          @php
+            $psek = 0;
+            $ppel = 0;
+            $pka = 0;
+            $pkdrt = 0;
+            $pnip = 0;
+          @endphp
+          <tr>
+            <td colspan="7">Total Nilai Precision 
+              P(SEK)+P(PEL)+P(KA)+P(KDRT)+P(PEN)) / Jumlah Kelas = 
+
+              @if($prediksi['seksual_seksual'] > 0)
+                @php
+                  $psek = $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)
+                @endphp
+                {{$prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['pelecehan_pelecehan'] > 0)
+                @php
+                  $ppel = $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)
+                @endphp
+                {{$prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['kdrt_kdrt'] > 0)
+                @php
+                  $pkdrt = $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)
+                @endphp
+                {{$prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
+                @php
+                  $pka = $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)
+                @endphp
+                {{$prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)}}
+              @else
+                0
+              @endif
+              +
+              @if($prediksi['penipuan_penipuan'] > 0)
+                @php
+                  $pnip = $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)
+                @endphp
+                {{$prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)}}
+              @else
+                0
+              @endif
+              / 5
+
+              @php 
+                $hasil = $psek + $ppel + $pkdrt + $pka + $pnip;
+              @endphp
+              =
+                {{$hasil}} / 5
+              =
+              
+              @if($hasil > 0)
+                {{ $hasil / 5}}
+              @else
+                0
+              @endif
+
+            </td>
+          </tr>
 
           <tr>
             <td colspan="7">
@@ -336,18 +455,26 @@
               / 5
 
               @php 
-                $hasil = $psek + $ppel + $pkdrt + $pka + $pnip;
+                $hasilR = $psek + $ppel + $pkdrt + $pka + $pnip;
               @endphp
               =
-                {{$hasil}} / 5
+                {{$hasilR}} / 5
               =
               
-              @if($hasil > 0)
-                {{ $hasil / 5}}
+              @if($hasilR > 0)
+                {{ $hasilR / 5}}
               @else
                 0
               @endif
 
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">
+              <em>F-Mensure</em> = 2(recall×precision)) / (recall+precision) = 
+              2( {{$hasilR/5}} x {{$hasil/5}} ) / ( {{$hasilR/5}} + {{$hasil/5}} ) 
+              = {{ ( ($hasilR/5) * ($hasil/5) * 2) }} / {{ ($hasilR/5) + ($hasilR/5) }}
+              = {{ ( ($hasilR/5) * ($hasil/5) * 2) / ( ($hasilR/5) + ($hasilR/5) ) }}
             </td>
           </tr>
         </tbody>
