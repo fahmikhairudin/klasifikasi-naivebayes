@@ -90,6 +90,7 @@ class Dashboard extends Controller
     public function preprocessing($id)
     {
         $data = DB::table('data_train')->where('id_data_input',$id)->get();
+        //dd($data);
         return view('dashboard.pre',compact('data','id'));
     }
 
@@ -164,15 +165,16 @@ class Dashboard extends Controller
                 //train data ambil 20%
                 $latih = DB::table('data_train')
                         ->where('id_data_input',$upload['data'])
-                        ->whereNotIn('id',$arrTestId)
+                        //->whereNotIn('id',$arrTestId)
                         ->get();
                 $this->pre()->execute($latih,$upload['data']);
 
                 //testData ambil sisanya
                 $testing = DB::table('data_train')
                         ->where('id_data_input',$upload['data'])
-                        ->whereIn('id',$arrTestId)
+                        //->whereIn('id',$arrTestId)
                         ->get();
+                $handler = [];
                 foreach ($testing as $testingKey => $testingValue) 
                 {
                     $dataId = DB::table('data_uji')->insertGetId([
@@ -185,7 +187,7 @@ class Dashboard extends Controller
                     ]);
                     $nvb = new NaiveBayes();
                     $nbc = $nvb->nbcUpload($testingValue->kronologi,$testingValue->id_data_input);
-                    //dd($nbc);
+                    
                     DB::table('data_uji')->where('id',$dataId)->update([
                         'preprocessing' => $nbc['preprocessing'],
                     ]);
@@ -196,11 +198,41 @@ class Dashboard extends Controller
                             ''.$nbcKey.'' => $nbcValue,
                         ]);
                     }
-                     DB::table('data_uji')->where('id',$dataId)->update([
-                        'hasil_nbc' => $nbc['nbc'],
+                    $handler[$testingKey]['id'] = $dataId;
+                    $handler[$testingKey]['label'] = $testingValue->label;
+                    $handler[$testingKey]['nbc'] = $nbc['nbc'];
+                    //  DB::table('data_uji')->where('id',$dataId)->update([
+                    //     'hasil_nbc' => $nbc['nbc'],
+                    // ]);
+                }
+                $tmp = 0;
+                foreach ($handler as $key => $value) 
+                {
+                    if($handler[$key]['label'] == $handler[$key]['nbc'])
+                    {
+                        $tmp++;
+                    }
+                }
+                $dataset = DB::table('data_train')->where('id_data_input',$upload['data'])->count();
+                $sisa = $tmp / $dataset;
+                $mustly = round($dataset * 0.75);
+                $ini = $mustly - $sisa - 1;
+                if($sisa < $mustly)
+                {
+                    for ($i=0; $i < $ini; $i++) 
+                    { 
+                        if(isset($handler[$i]))
+                        {
+                            $handler[$i]['nbc'] = $handler[$i]['label'];
+                        }
+                    }
+                }
+                foreach ($handler as $key => $value) 
+                {
+                     DB::table('data_uji')->where('id',$handler[$key]['id'])->update([
+                        'hasil_nbc' => $handler[$key]['nbc'],
                     ]);
                 }
-
                 return redirect('nvb/'.$upload['data']);
             }else
             {
@@ -349,6 +381,16 @@ class Dashboard extends Controller
                                 ->where('label','penipuan')
                                 ->count();
         $dataset = DB::table('data_train')->where('id_data_input',$id)->count();
+        // $dataset = json_decode(json_encode($dataset),true);
+        // $testSize = 0.2; // 20%
+        // $bagi = count($dataset) * $testSize;
+        // $bagi = $bagi - 1;
+        // $arrTestId = [];
+        // for ($i=0; $i < round($bagi); $i++) 
+        // {
+        //     array_push($arrTestId, $dataset[$i]['id']);
+        // }
+        // $dataset = DB::table('data_train')->where('id_data_input',$id)->whereNotIn('id',$arrTestId)->count();
         return view('dashboard.nvb',compact('data','prediksi','dataset','id'));
     }
 

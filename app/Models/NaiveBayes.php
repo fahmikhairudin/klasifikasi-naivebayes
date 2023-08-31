@@ -125,7 +125,7 @@ class NaiveBayes
          $arr = array_unique($arr);
          foreach ($arr as $key => $value) 
          {
-            $dataKata = DB::table('data_tf_idf')->where('id_data_input',$trainId)->where('kata',$value)->first();
+            $dataKata = DB::table('data_tf_idf')->where('kata',$value)->first();
             if(!$dataKata)
             {
                 unset($arr[$key]);
@@ -147,7 +147,7 @@ class NaiveBayes
             //{
                 foreach ($arr as $key => $value)
                 {
-                    $dataKata = DB::table('data_tf_idf')->where('id_data_input',$trainId)->where('kata',$value)->first();
+                    $dataKata = DB::table('data_tf_idf')->where('kata',$value)->first();
                     if($dataKata)
                     {
                         $prob = $dataKata->$probName;

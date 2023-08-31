@@ -49,7 +49,7 @@ class TfIdf
 		}
 
 		//bersihkan kata tidak memeiliki term
-		DB::table('data_tf_idf')->where('seksual','0')->where('pelecehan','0')->where('kekerasan_anak','0')->where('kdrt','0')->where('penipuan','0')->where('id_data_input',$trainId)->delete();
+		DB::table('data_tf_idf')->where('seksual','0')->where('pelecehan','0')->where('kekerasan_anak','0')->where('kdrt','0')->where('penipuan','0')->delete();
 		//update df, d_df, idf
 		$data = DB::table('data_tf_idf')->where('id_data_input',$trainId)->get();
 		foreach ($data as $key => $value) 
