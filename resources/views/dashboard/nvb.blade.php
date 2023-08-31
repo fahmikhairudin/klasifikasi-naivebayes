@@ -10,11 +10,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Uji</h1>
+            <h1>Hasil Klasifikasi</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Data Latih</a></li>
+              <li class="breadcrumb-item"><a href="#">Data Upload</a></li>
               <li class="breadcrumb-item active">Naive Bayes</li>
             </ol>
           </div>
@@ -31,23 +31,19 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Daftar Data Uji Naive Bayes</h3>
+                <h3 class="card-title">Hasil Data Klasifikasi Naive Bayes</h3>
                 
               </div>
                <div class="card-header" align="center" style="background-color: white;">
-                 <a class="btn btn-warning" href="{{url('input')}}">
-                     <i class="fa fa-arrow-left"></i> Kembali Ke Data Uji 
+                 <a class="btn btn-warning" href="{{url('tf-idf/'.$id)}}">
+                     <i class="fa fa-arrow-left"></i> Lihat Ke TF IDF
                 </a>
                 &nbsp;
                  <a class="btn btn-info" style="cursor: pointer;" class="btn btn-info" data-toggle="modal" 
                     data-target="#matrix">
                       Confusion Matrix &nbsp; <i class="fa fa-table"></i>&nbsp; &  Accuracy &nbsp; <i class="fa fa-bullseye"></i>
                 </a>
-                &nbsp;
-
-                 <a class="btn btn-success" href="{{url('tf-idf')}}">
-                      Laporan &nbsp; <i class="fa fa-file-pdf-o"></i> &nbsp; <i class="fa fa-arrow-right"></i>
-                </a>
+              
                </div>
               <div class="card-body">
                 @if($message=Session::get('success'))
@@ -66,7 +62,7 @@
                       <th>Aktual</th>
                       <th>NBC</th>
                       <th>Tanggal</th>
-                      <th>Probabilitas</th>
+                     <!--  <th>Probabilitas</th> -->
                       <th>Action</th>
                     </tr>
                     </thead>
@@ -81,7 +77,7 @@
                             <td>
                               {{Carbon\Carbon::parse($item->created_at)->format('d F Y H:i:s')}}
                             </td>
-                            <td>
+                            <!-- <td>
                               <ul>
                                 <li>
                                   P|(Seksual) : <b>{{$item->seksual}}</b>
@@ -99,7 +95,7 @@
                                   P|(penipuan) : <b>{{$item->penipuan}}</b>
                                 </li>
                               </ul>
-                            </td>
+                            </td> -->
                             <td>
                                 <a class="btn btn-sm btn-danger" 
                                    onclick="return confirm('Yakin hapus data uji?')" 
@@ -472,9 +468,15 @@
           <tr>
             <td colspan="7">
               <em>F-Mensure</em> = 2(recall×precision)) / (recall+precision) = 
+              @if($hasilR > 0 && $hasil > 0)
               2( {{$hasilR/5}} x {{$hasil/5}} ) / ( {{$hasilR/5}} + {{$hasil/5}} ) 
+
               = {{ ( ($hasilR/5) * ($hasil/5) * 2) }} / {{ ($hasilR/5) + ($hasilR/5) }}
+
               = {{ ( ($hasilR/5) * ($hasil/5) * 2) / ( ($hasilR/5) + ($hasilR/5) ) }}
+              @else
+              -
+              @endif
             </td>
           </tr>
         </tbody>

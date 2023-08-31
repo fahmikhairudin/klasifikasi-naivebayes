@@ -68,11 +68,11 @@
                       </div>
                     </div>
                     <div class="col-sm-12" align="center">
-                      <a class="btn btn-success" href="{{url('data_latih/train')}}" 
+                     <!--  <a class="btn btn-success" href="{{url('data_latih/train')}}" 
                          onclick="return confirm('yakin untuk melatih data?')">
                         Latih Data <i class="fa fa-refresh"></i>
                       </a>
-                      &nbsp;&nbsp;
+                      &nbsp;&nbsp; -->
                       <a class="btn btn-info" href="{{url('pre')}}">
                         Lihat Preprocessing <i class="fa fa-arrow-right"></i>
                       </a>

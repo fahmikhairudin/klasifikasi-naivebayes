@@ -70,12 +70,20 @@
             </a>
           </li>
           
-          <li class="nav-item">
+          <li class="nav-item" style="display: none;">
             <a href="{{url('data_latih')}}" class="nav-link {{Request::segment(1) == 'data_latih'?'active':''}}">
               <i class="nav-icon fa fa-file-excel-o"></i>
               <p>Data Latih</p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="{{url('input')}}" class="nav-link {{Request::segment(1) == 'input'?'active':''}}">
+              <i class="nav-icon fa fa-edit"></i>
+              <p>Input</p>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a href="{{url('pre')}}"
                style="pointer-events: none;"
@@ -93,12 +101,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('input')}}" class="nav-link {{Request::segment(1) == 'input'?'active':''}}">
-              <i class="nav-icon fa fa-file-excel-o"></i>
-              <p>Input Data Uji</p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="{{url('nvb')}}" 
                style="pointer-events: none;"
                class="nav-link {{Request::segment(1) == 'nvb'?'active':''}}">
@@ -109,9 +111,25 @@
           <li class="nav-item">
             <a href="{{url('laporan')}}" 
                style="pointer-events: none;"
-               class="nav-link {{Request::segment(1) == 'lapoan'?'active':''}}">
+               class="nav-link {{Request::segment(1) == 'laporan'?'active':''}}">
               <i class="nav-icon fa fa-file-pdf-o"></i>
               <p>Laporan</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('laporan')}}" 
+               style="pointer-events: none;"
+               class="nav-link {{Request::segment(1) == 'history_input'?'active':''}}">
+              <i class="nav-icon fa fa-history"></i>
+              <p>History Input Data</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('laporan')}}" 
+               style="pointer-events: none;"
+               class="nav-link {{Request::segment(1) == 'history_upload'?'active':''}}">
+              <i class="nav-icon fa fa-history"></i>
+              <p>History Upload Data</p>
             </a>
           </li>
         </ul>

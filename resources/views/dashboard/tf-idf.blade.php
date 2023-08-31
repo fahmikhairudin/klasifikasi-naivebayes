@@ -10,11 +10,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Latih</h1>
+            <h1>Data Tf Idf</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Data Latih</a></li>
+              <li class="breadcrumb-item"><a href="#">Data Tf Idf</a></li>
               <li class="breadcrumb-item active">TF IDF</li>
             </ol>
           </div>
@@ -31,15 +31,15 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Daftar Data Latih TF IDF</h3>
+                <h3 class="card-title">Hasl Data Tf Idf</h3>
               </div>
                <div class="card-header" align="center" style="background-color: white;">
-                <a class="btn btn-warning" href="{{url('pre')}}">
-                     <i class="fa fa-arrow-left"></i> Kembali Ke Preprocessing 
+                <a class="btn btn-warning" href="{{url('pre/'.$id)}}">
+                     <i class="fa fa-arrow-left"></i> Lihat Ke Preprocessing 
                 </a>
                 &nbsp;
-                 <a class="btn btn-info" href="{{url('input')}}">
-                      Input Data Uji <i class="fa fa-arrow-right"></i>
+                 <a class="btn btn-info" href="{{url('nvb/'.$id)}}">
+                      Hasil Klasifikasi Data Upload <i class="fa fa-arrow-right"></i>
                 </a>
                </div>
               <div class="card-body">

@@ -8,7 +8,7 @@ use App\Models\TfIdf;
 use Sastrawi\Stemmer\StemmerFactory;
 class Pre
 {
-	public function execute($data)
+	public function execute($data,$trainId)
     {
         $result = [];
         $stemmerF = new StemmerFactory();
@@ -104,7 +104,7 @@ class Pre
         
         //tfidf 
         $tfidf = new TfIdf();
-        $gas = $tfidf->insertTfidf($arrFinal,$steamArr);
+        $gas = $tfidf->insertTfidf($arrFinal,$steamArr,$trainId);
         $hasil = DB::table('data_tf_idf')->get();
         return $hasil;
     }

@@ -6,7 +6,7 @@ use Session;
 use Carbon\Carbon;
 class TfIdf
 {
-	public function insertTfidf($data,$steamArr)
+	public function insertTfidf($data,$steamArr,$trainId)
 	{
 		$no = 0;
 		$label = DB::table('data_label_term')->get();
@@ -14,16 +14,18 @@ class TfIdf
 		{
 			foreach ($label as $labelKey => $labelValue) 
 			{
-				//dd($data[$steamArrValue][$labelValue->nama]);
 				if(isset($data[$steamArrValue][$labelValue->nama]))
 				{
 					$id = $data[$steamArrValue][$labelValue->nama]['id'];
-					$check = DB::table('data_tf_idf')->where('kata',$steamArrValue)->first();
+					$check = DB::table('data_tf_idf')
+							 ->where('kata',$steamArrValue)
+							 ->where('id_data_input',$trainId)
+							 ->first();
 					if(!$check)
 					{
 						$no++;
 						$getId = DB::table('data_tf_idf')->insertGetId([
-								//'data_train_id'=>$id,
+								'id_data_input'=>$trainId,
 								'kata'=>$steamArrValue,
 								'created_at'=>Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
 							]);
@@ -35,8 +37,6 @@ class TfIdf
 					}else
 					{
 						$getId = $check->id;
-						// $name = $labelValue->nama;
-						// $freq = $check->$name;
 						$freq = $data[$steamArrValue][$labelValue->nama]['freq'];
 						DB::table('data_tf_idf')->where('id',$getId)->update([
 							''.$labelValue->nama.'' => $freq,
@@ -49,9 +49,9 @@ class TfIdf
 		}
 
 		//bersihkan kata tidak memeiliki term
-		DB::table('data_tf_idf')->where('seksual','0')->where('pelecehan','0')->where('kekerasan_anak','0')->where('kdrt','0')->where('penipuan','0')->delete();
+		DB::table('data_tf_idf')->where('seksual','0')->where('pelecehan','0')->where('kekerasan_anak','0')->where('kdrt','0')->where('penipuan','0')->where('id_data_input',$trainId)->delete();
 		//update df, d_df, idf
-		$data = DB::table('data_tf_idf')->get();
+		$data = DB::table('data_tf_idf')->where('id_data_input',$trainId)->get();
 		foreach ($data as $key => $value) 
 		{	
 			$df = 0;
@@ -79,7 +79,7 @@ class TfIdf
 		foreach ($label as $labelKey => $labelValue) 
 		{
 			$nama = $labelValue->nama;
-			$term = DB::table('data_tf_idf')->sum(''.$nama.'');
+			$term = DB::table('data_tf_idf')->where('id_data_input',$trainId)->sum(''.$nama.'');
 			$totalDf += $term;
 			DB::table('data_label_term')->where('id',$labelValue->id)->update([
 				'term'=>$term

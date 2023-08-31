@@ -10,12 +10,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data </h1>
+            <h1>History Input</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Data </a></li>
-              <li class="breadcrumb-item active">Preprocessing</li>
+              <li class="breadcrumb-item"><a href="#">History</a></li>
+              <li class="breadcrumb-item active">Input</li>
             </ol>
           </div>
         </div>
@@ -30,43 +30,56 @@
           <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Hasil Data  Preprocessing</h3>
-                
+
+              <div class="card-header row">
+                <div class="col-sm-6 pt-2">
+                  <h3 class="card-title">History Input</h3>
+                </div>
+                <div class="col-sm-6" align="right">
+                <a href="{{url('input')}}" class="btn btn-success">
+                  <i class="fa fa-arrow-left"></i> Kembali Ke Data Input
+                </a>
+                </div>
               </div>
-               <div class="card-header" align="center" style="background-color: white;">
-                 <a class="btn btn-warning" href="{{url('input')}}">
-                     <i class="fa fa-arrow-left"></i> Kembali Ke Data Input 
-                </a>
-                &nbsp;
-                 <a class="btn btn-info" href="{{url('tf-idf/'.$id)}}">
-                      Lihat TF-IDF <i class="fa fa-arrow-right"></i>
-                </a>
-               </div>
               <div class="card-body">
                 @if($message=Session::get('success_hapus'))
                     <div class="alert alert-success" role="alert">
                         <div class="alert-text">{{ucwords($message)}}</div>
                     </div>
                   @endif
-               
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                       <th>No</th>
-                      <th>Label</th>
+                      <th>Nama</th>
+                      <th>Alamat</th>
                       <th>Kronologi</th>
-                      <th>Preprocessing</th>
+                      <th>Tanggal Input</th>
+                      <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                       @foreach($data as $key => $item)
                         <tr>
                             <td>{{$key+1}}</td>
-                            <td>{{$item->label}}</td>
-                            <td>{{$item->kronologi}}</td>
-                            <td>{{$item->preprocessing}}</td>
+                            <td>
+                              {{$item->nama}}
+                            </td>
+                            <td>
+                              {{$item->alamat}}
+                            </td>
+                            <td>
+                              {{$item->kronologi}}
+                            </td>
+                            <td>
+                              {{Carbon\Carbon::parse($item->created_at)->format('d F Y H:i:s')}}
+                            </td>
+                            <td>
+                              <a href="{{url('laporan/'.$item->id)}}" class="btn btn-sm btn-success">
+                                Lihat Hasil <i class="fa fa-eye"></i>
+                              </a>
+                            </td>
                         </tr>
                       @endforeach
                     </tbody>
