@@ -228,6 +228,13 @@
             <td colspan="3">FN (PENIPUAN) = {{$fnPenipuan}}</td>
           </tr>
           <tr>
+            <td>FP (SEKSUAL) = {{$fpSeksual}}</td>
+            <td>FP (PELECEHAN) = {{$fpPelecehan}}</td>
+            <td>FP (KEKERASAN ANAK) = {{$fpKa}}</td>
+            <td>FP (KDRT) = {{$fpKdrt}}</td>
+            <td colspan="3">FP (PENIPUAN) = {{$fpPenipuan}}</td>
+          </tr>
+          <tr>
             <td colspan="7">Nilai Accuracy = TP/Total Data Set = {{$tp}}/{{$dataset}} ={{$tp/$dataset}}</td>
           </tr>
 
