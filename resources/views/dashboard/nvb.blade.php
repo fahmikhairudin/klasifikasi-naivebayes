@@ -203,14 +203,19 @@
         </thead>
         @php 
           $fnSeksual = $prediksi['seksual_pelecehan'] + $prediksi['seksual_kekerasan_anak'] + $prediksi['seksual_kdrt'] + $prediksi['seksual_penipuan'];
+          $fpSeksual = $prediksi['pelecehan_seksual'] + $prediksi['kekerasan_anak_seksual'] + $prediksi['kdrt_seksual'] + $prediksi['penipuan_seksual'];
 
           $fnPelecehan = $prediksi['pelecehan_seksual'] + $prediksi['pelecehan_kekerasan_anak'] + $prediksi['pelecehan_kdrt'] + $prediksi['pelecehan_penipuan'];
+          $fpPelecehan = $prediksi['seksual_pelecehan'] + $prediksi['kekerasan_anak_pelecehan'] + $prediksi['kdrt_pelecehan'] + $prediksi['penipuan_pelecehan'];
 
           $fnKa = $prediksi['kekerasan_anak_seksual'] + $prediksi['kekerasan_anak_pelecehan'] + $prediksi['kekerasan_anak_kdrt'] + $prediksi['kekerasan_anak_penipuan'];
+          $fpKa = $prediksi['seksual_kekerasan_anak'] + $prediksi['pelecehan_kekerasan_anak'] + $prediksi['kdrt_kekerasan_anak'] + $prediksi['penipuan_kekerasan_anak'];
 
           $fnKkdrt = $prediksi['kdrt_seksual'] + $prediksi['kdrt_kekerasan_anak'] + $prediksi['kdrt_pelecehan'] + $prediksi['kdrt_penipuan'];
+          $fpKdrt = $prediksi['seksual_kdrt'] + $prediksi['pelecehan_kdrt'] + $prediksi['kekerasan_anak_kdrt'] + $prediksi['penipuan_kdrt'];
 
           $fnPenipuan = $prediksi['penipuan_seksual'] + $prediksi['penipuan_kekerasan_anak'] + $prediksi['penipuan_kdrt'] + $prediksi['penipuan_pelecehan'];
+          $fpPenipuan = $prediksi['seksual_penipuan'] + $prediksi['pelecehan_penipuan'] + $prediksi['kekerasan_anak_penipuan'] + $prediksi['kdrt_penipuan'];
 
           $tp = $prediksi['seksual_seksual'] + $prediksi['pelecehan_pelecehan'] + $prediksi['kekerasan_anak_kekerasan_anak'] + $prediksi['kdrt_kdrt'] + $prediksi['penipuan_penipuan'];
         @endphp
@@ -228,45 +233,45 @@
 
           <tr>
             <td colspan="7">
-              Nilai Precision (SEKSUAL)  = TP/(TP+FN) = {{$prediksi['seksual_seksual']}}/({{$prediksi['seksual_seksual']}}+{{$fnSeksual}}) = 
+              Nilai Precision (SEKSUAL)  = TP/(TP+FP) = {{$prediksi['seksual_seksual']}}/({{$prediksi['seksual_seksual']}}+{{$fpSeksual}}) = 
               @if($prediksi['seksual_seksual'] > 0)
-                {{ $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual) }}
+                {{ $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fpSeksual) }}
               @else
                 0
               @endif
             </td>
           </tr>
           <tr>
-            <td colspan="7">Nilai Precision (PELECEHAN) = TP/(TP+FN)  = {{$prediksi['pelecehan_pelecehan']}}/({{$prediksi['pelecehan_pelecehan']}}+{{$fnPelecehan}}) = 
+            <td colspan="7">Nilai Precision (PELECEHAN) = TP/(TP+FP)  = {{$prediksi['pelecehan_pelecehan']}}/({{$prediksi['pelecehan_pelecehan']}}+{{$fpPelecehan}}) = 
              @if($prediksi['pelecehan_pelecehan'] > 0)
-              {{ $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan) }}
+              {{ $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fpPelecehan) }}
              @else
                 0
              @endif
             </td>
           </tr>
           <tr>
-            <td colspan="7">Nilai Precision (KDRT) = TP/(TP+FN)  = {{$prediksi['kdrt_kdrt']}}/({{$prediksi['kdrt_kdrt']}}+{{$fnKkdrt}}) = 
+            <td colspan="7">Nilai Precision (KDRT) = TP/(TP+FP)  = {{$prediksi['kdrt_kdrt']}}/({{$prediksi['kdrt_kdrt']}}+{{$fpKdrt}}) = 
               @if($prediksi['kdrt_kdrt'] > 0)
-                {{ $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt) }}
+                {{ $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fpKdrt) }}
               @else
                 0
               @endif
             </td>
           </tr>
           <tr>
-            <td colspan="7">Nilai Precision (KEKERASAN ANAK) = TP/(TP+FN)  = {{$prediksi['kekerasan_anak_kekerasan_anak']}}/({{$prediksi['kekerasan_anak_kekerasan_anak']}}+{{$fnKa}}) =
+            <td colspan="7">Nilai Precision (KEKERASAN ANAK) = TP/(TP+FP)  = {{$prediksi['kekerasan_anak_kekerasan_anak']}}/({{$prediksi['kekerasan_anak_kekerasan_anak']}}+{{$fpKa}}) =
               @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
-                {{ $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa) }}
+                {{ $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fpKa) }}
               @else
                 0
               @endif
             </td>
           </tr>
           <tr>
-            <td colspan="7">Nilai Precision (PENIPUAN) = TP/(TP+FN) = {{$prediksi['penipuan_penipuan']}}/({{$prediksi['penipuan_penipuan']}}+{{$fnPenipuan}}) =
+            <td colspan="7">Nilai Precision (PENIPUAN) = TP/(TP+FP) = {{$prediksi['penipuan_penipuan']}}/({{$prediksi['penipuan_penipuan']}}+{{$fpPenipuan}}) =
               @if($prediksi['penipuan_penipuan'] > 0)
-                {{ $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan) }}
+                {{ $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fpPenipuan) }}
               @else
                 0
               @endif
@@ -286,45 +291,45 @@
 
               @if($prediksi['seksual_seksual'] > 0)
                 @php
-                  $psek = $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)
+                  $psek = $prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fpSeksual)
                 @endphp
-                {{$prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fnSeksual)}}
+                {{$prediksi['seksual_seksual'] / ($prediksi['seksual_seksual'] + $fpSeksual)}}
               @else
                 0
               @endif
               +
               @if($prediksi['pelecehan_pelecehan'] > 0)
                 @php
-                  $ppel = $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)
+                  $ppel = $prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fpPelecehan)
                 @endphp
-                {{$prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fnPelecehan)}}
+                {{$prediksi['pelecehan_pelecehan'] / ($prediksi['pelecehan_pelecehan'] + $fpPelecehan)}}
               @else
                 0
               @endif
               +
               @if($prediksi['kdrt_kdrt'] > 0)
                 @php
-                  $pkdrt = $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)
+                  $pkdrt = $prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fpKdrt)
                 @endphp
-                {{$prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fnKkdrt)}}
+                {{$prediksi['kdrt_kdrt'] / ($prediksi['kdrt_kdrt'] + $fpKdrt)}}
               @else
                 0
               @endif
               +
               @if($prediksi['kekerasan_anak_kekerasan_anak'] > 0)
                 @php
-                  $pka = $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)
+                  $pka = $prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fpKa)
                 @endphp
-                {{$prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fnKa)}}
+                {{$prediksi['kekerasan_anak_kekerasan_anak'] / ($prediksi['kekerasan_anak_kekerasan_anak'] + $fpKa)}}
               @else
                 0
               @endif
               +
               @if($prediksi['penipuan_penipuan'] > 0)
                 @php
-                  $pnip = $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)
+                  $pnip = $prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fpPenipuan)
                 @endphp
-                {{$prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fnPenipuan)}}
+                {{$prediksi['penipuan_penipuan'] / ($prediksi['penipuan_penipuan'] + $fpPenipuan)}}
               @else
                 0
               @endif
